@@ -54,4 +54,12 @@ app.get("/", (req, res) => {
    });
 });
 
+app.get("/api/v1", (req, res) => {
+   res.json({
+      message: "Version 1 port also healthy now.",
+   });
+});
+
+app.get("/health", );
+
 export default app;
