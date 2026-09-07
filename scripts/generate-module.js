@@ -247,8 +247,7 @@ export const ${camelCase}Services = {
       [`${kebabCase}.controllers.ts`]: `
 import httpStatus from "http-status";
 import { ${camelCase}Services } from "./${kebabCase}.services";
-import { sendResponse } from "../../utils";
-import catchAsync from "../../utils/catch-async";
+import { sendResponse, catchAsync } from "../../utils";
 
 // 1. CREATE ${upperName}
 const create${pascalCase} = catchAsync(async (req, res) => {
