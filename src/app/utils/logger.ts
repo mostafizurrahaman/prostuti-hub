@@ -1,6 +1,7 @@
 // packages/logger/src/utils/get-logger.ts
 import * as winston from "winston";
 import "winston-daily-rotate-file";
+import { configs } from "../configs";
 
 const { combine, timestamp, errors, printf, colorize, json, uncolorize } =
    winston.format;
@@ -110,3 +111,10 @@ export const getLogger = (options: LoggerOptions): winston.Logger => {
 
    return logger;
 };
+
+export const logger = getLogger({
+   isProduction: configs?.nodeENV === "production",
+   appName: configs.siteName,
+   logDirectory: "./logs",
+   level: configs.nodeENV === "production" ? "info" : "debug",
+});

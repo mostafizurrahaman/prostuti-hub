@@ -3,6 +3,7 @@ import { Server } from "http";
 import app from "./app";
 import dns from "node:dns/promises";
 import { configs } from "./app/configs";
+import { logger } from "./app/utils";
 
 dns.setServers(["1.1.1.1"]);
 
@@ -12,12 +13,10 @@ const bootstrap = async () => {
    try {
       // server listen :
       server = app.listen(configs.port, () => {
-         console.log(`🧑‍🚀🚀 Server is running on ${configs.port}`);
-         // logger.info(`🧑‍🚀🚀 Server is running on ${configs.port}`);
+         logger.info(`🧑‍🚀🚀 Server is running on ${configs.port}`);
       });
    } catch (err) {
-      // logger.error(`❌ Database connection failed ❌`, err);
-      console.log(`❌ Database connection failed ❌`, err);
+      logger.error(`❌ Database connection failed ❌`, err);
    }
 };
 
@@ -36,7 +35,7 @@ process.on("unhandledRejection", (reason) => {
 
 // handled uncaughtException:
 process.on("uncaughtException", (error) => {
-   // logger.error("uncaughtException: ERROR", error.message);
+   logger.error("uncaughtException: ERROR", error.message);
    console.error("uncaughtException: ERROR", error.message);
    process.exit(1);
 });

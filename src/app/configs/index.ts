@@ -17,6 +17,7 @@ const envSchema = z.object({
    clientUrl: z.string({
       error: "Client URL is required.",
    }),
+   siteName: z.string({ error: "Site name is required" }),
 });
 
 const result = envSchema.safeParse(process.env);
