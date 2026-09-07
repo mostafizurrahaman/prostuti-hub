@@ -6,3 +6,5 @@ export * from "./generate-otp";
 export * from "./set-cookie";
 export * from "./get-user-from-req";
 export * from "./logger";
+export * from "./catch-async";
+export * from "./zod";
