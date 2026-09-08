@@ -113,8 +113,8 @@ export const getLogger = (options: LoggerOptions): winston.Logger => {
 };
 
 export const logger = getLogger({
-   isProduction: configs?.nodeENV === "production",
-   appName: configs.siteName,
+   isProduction: configs?.nodeEnv === "production",
+   appName: configs.site.name,
    logDirectory: "./logs",
-   level: configs.nodeENV === "production" ? "info" : "debug",
+   level: configs.nodeEnv === "production" ? "info" : "debug",
 });

@@ -1,10 +1,10 @@
 import type { ZodObject } from "zod";
 import { configs } from "../configs";
-import catchAsync from "../utils/catch-async";
+import { catchAsync } from "../utils";
 
 export const validateRequest = (schema: ZodObject) => {
    return catchAsync(async (req, res, next) => {
-      if (configs.nodeENV === "development") {
+      if (configs.nodeEnv === "development") {
          console.log("Before Validation", {
             body: req.body,
             params: req.params,
@@ -20,7 +20,7 @@ export const validateRequest = (schema: ZodObject) => {
          cookies: req.cookies,
       });
 
-      if (configs.nodeENV === "development") {
+      if (configs.nodeEnv === "development") {
          console.log("After Validation", {
             body: req.body,
             params: req.params,

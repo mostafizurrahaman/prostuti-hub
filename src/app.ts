@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
 import { getRateLimiter } from "./app/libs";
+import globalErrorHandler from "./app/middlewares/global-error-handler";
+import { notFound } from "./app/middlewares";
 
 /**
  * ====================
@@ -60,6 +62,8 @@ app.get("/api/v1", (req, res) => {
    });
 });
 
-app.get("/health", );
+app.use(globalErrorHandler);
+
+app.use(notFound);
 
 export default app;

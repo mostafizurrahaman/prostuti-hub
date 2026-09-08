@@ -1,6 +1,7 @@
-import { z, ZodIssueCode } from 'zod'
-import { URL_REGEX } from '../constants/regex'
-import mongoose from 'mongoose'
+import { z, ZodIssueCode } from "zod";
+
+import mongoose from "mongoose";
+import { URL_REGEX } from "../../constants/regex";
 
 /**
  * Creates a required string schema.
@@ -14,23 +15,26 @@ import mongoose from 'mongoose'
  * @param {string} fieldName - The display name of the field for errors.
  * @returns {import('zod').ZodEffects<import('zod').ZodString>} Zod string schema
  */
-export const requiredString = (fieldName = 'Field') => {
-  return z
-    .string({
-      error: (issue) => {
-        if (issue.code === ZodIssueCode.invalid_type && issue.input === undefined) {
-          return `${fieldName} is required`
-        }
+export const requiredString = (fieldName = "Field") => {
+   return z
+      .string({
+         error: (issue) => {
+            if (
+               issue.code === ZodIssueCode.invalid_type &&
+               issue.input === undefined
+            ) {
+               return `${fieldName} is required`;
+            }
 
-        if (issue.code === ZodIssueCode.invalid_type) {
-          return `${fieldName} must be a string`
-        }
-        return undefined
-      },
-    })
-    .trim()
-    .min(1, { message: `${fieldName} cannot be empty` })
-}
+            if (issue.code === ZodIssueCode.invalid_type) {
+               return `${fieldName} must be a string`;
+            }
+            return undefined;
+         },
+      })
+      .trim()
+      .min(1, { message: `${fieldName} cannot be empty` });
+};
 
 /**
  * Creates an optional string schema.
@@ -44,23 +48,26 @@ export const requiredString = (fieldName = 'Field') => {
  * @param {string} fieldName - The display name of the field for errors.
  * @returns {import('zod').ZodOptional<import('zod').ZodEffects<import('zod').ZodString>>} Optional Zod string schema
  */
-export const optionalString = (fieldName = 'Field') =>
-  z
-    .string({
-      error: (issue) => {
-        if (issue.code === ZodIssueCode.invalid_type && issue.input === undefined) {
-          return undefined
-        }
+export const optionalString = (fieldName = "Field") =>
+   z
+      .string({
+         error: (issue) => {
+            if (
+               issue.code === ZodIssueCode.invalid_type &&
+               issue.input === undefined
+            ) {
+               return undefined;
+            }
 
-        if (issue.code === ZodIssueCode.invalid_type) {
-          return `${fieldName} must be a string`
-        }
-        return undefined
-      },
-    })
-    .trim()
-    .min(1, { message: `${fieldName} cannot be empty` })
-    .optional()
+            if (issue.code === ZodIssueCode.invalid_type) {
+               return `${fieldName} must be a string`;
+            }
+            return undefined;
+         },
+      })
+      .trim()
+      .min(1, { message: `${fieldName} cannot be empty` })
+      .optional();
 
 /**
  * Creates a nullable string schema.
@@ -72,14 +79,14 @@ export const optionalString = (fieldName = 'Field') =>
  * @param {string} fieldName - The display name of the field for errors.
  * @returns {import('zod').ZodNullable<import('zod').ZodEffects<import('zod').ZodString>>} Nullable Zod string schema
  */
-export const nullableString = (fieldName = 'Field') =>
-  z
-    .string({
-      error: () => `${fieldName} must be a string`,
-    })
-    .trim()
-    .min(1, { message: `${fieldName} cannot be empty` })
-    .nullable()
+export const nullableString = (fieldName = "Field") =>
+   z
+      .string({
+         error: () => `${fieldName} must be a string`,
+      })
+      .trim()
+      .min(1, { message: `${fieldName} cannot be empty` })
+      .nullable();
 
 /**
  * Creates an optional and nullable string schema.
@@ -91,15 +98,15 @@ export const nullableString = (fieldName = 'Field') =>
  * @param {string} fieldName - The display name of the field for errors.
  * @returns {import('zod').ZodNullable<import('zod').ZodOptional<import('zod').ZodEffects<import('zod').ZodString>>>}
  */
-export const optionalNullableString = (fieldName = 'Field') =>
-  z
-    .string({
-      error: () => `${fieldName} must be a string`,
-    })
-    .trim()
-    .min(1, { message: `${fieldName} cannot be empty` })
-    .optional()
-    .nullable()
+export const optionalNullableString = (fieldName = "Field") =>
+   z
+      .string({
+         error: () => `${fieldName} must be a string`,
+      })
+      .trim()
+      .min(1, { message: `${fieldName} cannot be empty` })
+      .optional()
+      .nullable();
 
 /**
  * URL string validator with regex
@@ -111,45 +118,48 @@ export const optionalNullableString = (fieldName = 'Field') =>
  *
  * @param {string} fieldName - Name used in error messages
  */
-export const urlString = (fieldName = 'URL') =>
-  z
-    .string({
-      error: (issue) => {
-        // Type not string or undefined
-        if (issue.code === ZodIssueCode.invalid_type) {
-          return `${fieldName} must be a string`
-        }
-        return undefined
-      },
-    })
-    .trim()
-    .regex(URL_REGEX, {
-      message: `${fieldName} must be a valid http/https URL`,
-    })
+export const urlString = (fieldName = "URL") =>
+   z
+      .string({
+         error: (issue) => {
+            // Type not string or undefined
+            if (issue.code === ZodIssueCode.invalid_type) {
+               return `${fieldName} must be a string`;
+            }
+            return undefined;
+         },
+      })
+      .trim()
+      .regex(URL_REGEX, {
+         message: `${fieldName} must be a valid http/https URL`,
+      });
 
-export const requiredMongooseId = (fieldName = 'Field') => {
-  return z
-    .string({
-      error: (issue) => {
-        if (issue.code === ZodIssueCode.invalid_type && issue.input === undefined) {
-          return `${fieldName} is required`
-        }
+export const requiredMongooseId = (fieldName = "Field") => {
+   return z
+      .string({
+         error: (issue) => {
+            if (
+               issue.code === ZodIssueCode.invalid_type &&
+               issue.input === undefined
+            ) {
+               return `${fieldName} is required`;
+            }
 
-        if (issue.code === ZodIssueCode.invalid_type) {
-          return `${fieldName} must be a string`
-        }
+            if (issue.code === ZodIssueCode.invalid_type) {
+               return `${fieldName} must be a string`;
+            }
 
-        return undefined
-      },
-    })
-    .trim()
-    .min(1, { message: `${fieldName} cannot be empty` })
-    .refine(
-      (val) => {
-        return mongoose.isValidObjectId(val)
-      },
-      {
-        error: () => 'Invalid mongoose ID!',
-      }
-    )
-}
+            return undefined;
+         },
+      })
+      .trim()
+      .min(1, { message: `${fieldName} cannot be empty` })
+      .refine(
+         (val) => {
+            return mongoose.isValidObjectId(val);
+         },
+         {
+            error: () => "Invalid mongoose ID!",
+         },
+      );
+};

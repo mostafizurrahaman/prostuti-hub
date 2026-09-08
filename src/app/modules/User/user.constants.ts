@@ -11,6 +11,7 @@ export const UserStatus = {
    PENDING: "pending",
    ACTIVE: "active",
    BLOCKED: "blocked",
+   DELETED: "deleted",
 } as const;
 
 // ?? Export values :
