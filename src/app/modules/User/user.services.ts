@@ -8,8 +8,59 @@ import type {
 import { AppError } from "../../errors";
 import { User } from "./user.model";
 import { userSearchableFields } from "./user.constants";
+import type { TMulterFile } from "../../interfaces/multer.types";
+import uploadFileIntoCloudinary from "../../utils/cloudinary/upload-file";
+import { File_FOLDER_NAME } from "../../constants/folder_name";
+import { hashPassword } from "../../utils";
+import { configs } from "../../configs";
 
-const createUser = async (payload: TCreateUserPayloadType) => {
+const createUser = async (
+   payload: TCreateUserPayloadType,
+   profileImage: TMulterFile,
+) => {
+   const { email, name, phone, password } = payload;
+
+   // ?? Check with this email is any user exists?
+   const existingUser = await User.findOne({
+      email,
+   });
+
+   if (existingUser) {
+      throw new AppError(httpStatus.BAD_REQUEST, "This email already in use.");
+   }
+
+   // ?? Check this phone number already in use?:
+   const associatedUserWithPhone = await User.findOne({
+      phone,
+   });
+
+   if (associatedUserWithPhone) {
+      throw new AppError(
+         httpStatus.BAD_REQUEST,
+         "This phone number already in use.",
+      );
+   }
+
+   let newProfileUrl: string | null = null;
+
+   // ?? File Upload:
+   if (profileImage) {
+      const url = await uploadFileIntoCloudinary(
+         profileImage,
+         File_FOLDER_NAME.PROFILE_IMAGES,
+      );
+      newProfileUrl = url;
+   }
+
+   // ?? Hash the password:
+   const hashedPassword = await hashPassword(
+      password,
+      configs.passwordSaltRound,
+   );
+
+   try {
+   } catch (error) {}
+
    const result = await User.create(payload);
    return result;
 };

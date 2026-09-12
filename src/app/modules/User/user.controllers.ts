@@ -1,9 +1,11 @@
 import httpStatus from "http-status";
 import { userServices } from "./user.services";
 import { sendResponse, catchAsync } from "../../utils";
+import type { TMulterFile } from "../../interfaces/multer.types";
 
 const createUser = catchAsync(async (req, res) => {
-   const result = await userServices.createUser(req.body);
+   const profileImage = req.file as TMulterFile;
+   const result = await userServices.createUser(req.body, profileImage);
 
    sendResponse(res, {
       statusCode: httpStatus.CREATED,

@@ -5,12 +5,27 @@ import {
    optionalEnumString,
    optionalString,
    optionalDate,
+   requiredEmail,
 } from "../../utils";
 import { userSortableFields } from "./user.constants";
-import { sortOrderValues } from "../../constants";
+import { bdPhoneRegex, sortOrderValues } from "../../constants";
 
 const createUserSchema = z.object({
-   body: z.object({}),
+   body: z.object({
+      name: requiredString("Name"),
+      email: requiredEmail("Email"),
+      phone: requiredString("Phone").regex(bdPhoneRegex, {
+         error: "Provide a valid bangladeshi number.",
+      }),
+      password: z
+         .string()
+         .min(8, "Password must be at least 8 characters")
+         .regex(/[a-z]/, "Password must contain a lowercase letter")
+         .regex(/[A-Z]/, "Password must contain an uppercase letter")
+         .regex(/\d/, "Password must contain a number")
+         .regex(/[@$!%*?&]/, "Password must contain a special character"),
+      
+   }),
 });
 
 const updateUserSchema = z.object({
